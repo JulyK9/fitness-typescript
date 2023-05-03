@@ -5,9 +5,13 @@ const useMediaQuery = (query: string) => {
 
   useEffect(() => {
     const media = window.matchMedia(query);
+    // console.log("media: ", media);
+
     if (media.matches !== matches) {
+      // console.log("media.matches: ", media.matches);
       setMatches(media.matches);
     }
+    // console.log("media.matches: ", media.matches);
 
     const listener = () => setMatches(media.matches);
     window.addEventListener("resize", listener);
