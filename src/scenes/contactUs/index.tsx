@@ -9,6 +9,22 @@ type Props = {
 };
 
 const ContactUs = ({ setSelectedPage }: Props) => {
+  const inputStyles = `w-full rounded-lg bg-primary-300 px-5 py-3 placeholder-white`;
+
+  const {
+    register,
+    trigger,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (e: any) => {
+    const isValid = await trigger();
+
+    if (!isValid) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <section id="contactus" className="mx-auto w-5/6 pb-32 pt-24">
       <motion.div
@@ -48,7 +64,31 @@ const ContactUs = ({ setSelectedPage }: Props) => {
               hidden: { opacity: 0, y: 50 },
               visible: { opacity: 1, x: 0 },
             }}
-          ></motion.div>
+          >
+            <form
+              target="_blank"
+              onSubmit={onSubmit}
+              action="https://formsubmit.co/my@gmail.com"
+              method="POST"
+            >
+              <input
+                className={inputStyles}
+                type="text"
+                placeholder="NAME"
+                {...register("name", {
+                  required: true,
+                  maxLength: 100,
+                })}
+              />
+              {errors.name && (
+                <p className="mt-1 text-primary-500">
+                  {errors.name.type === "required" && "This field is required."}
+                  {errors.name.type === "maxLength" &&
+                    "Max length is 100 character."}
+                </p>
+              )}
+            </form>
+          </motion.div>
         </div>
       </motion.div>
     </section>
